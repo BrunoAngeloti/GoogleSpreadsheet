@@ -1,26 +1,71 @@
 import Head from 'next/head'
-
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import styles from '../styles/Home.module.css'
-
-
-import credentials from '../credentials/google_sheets_api.json'
-
-//const  GoogleSpreadsheet  = require('google-spreadsheet');
-
-//import GoogleSpreadsheet from 'google-spreadsheet';
-
 
 export default function Home() {
   const [name, setName] = useState('');
 
-  function criaAba(){
-   
-    console.log("Criando " + name);
+  async function criaAba(){
+    await fetch('/api/add', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json, text/plain, */*',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name: name
+        }),
+      }).then((res) => {
+        if (res.status === 200) {
+            console.log("SUCESSO")
+        }
+        else {
+           // erro();
+           console.log("error")
+        }
+    })     
   }
 
-  function deleteAba(){
-    console.log("Deletando " + name);
+  async function deleteAba(){
+    await fetch('/api/add', {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+          console.log("DELETADO")
+      }
+      else {
+         // erro();
+         console.log("error")
+      }
+    }) 
+  }
+
+  async function updateAba(){
+    await fetch('/api/add', {
+      method: 'PUT',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+          console.log("ATUALIZADO")
+      }
+      else {
+         // erro();
+         console.log("error")
+      }
+    }) 
   }
 
 
@@ -34,6 +79,7 @@ export default function Home() {
       <input onChange={(e) => {setName(e.target.value)}} type="text" />
       <button onClick={criaAba}>CRIAR ABA</button>
       <button onClick={deleteAba}>DELETAR ABA</button>
+      <button onClick={updateAba}>ATUALIZAR ABA</button>
     </div>
   )
 }

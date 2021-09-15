@@ -12,8 +12,8 @@ export default async function(req, res) {
 
   await doc.loadInfo();
 
-  if(req.method === 'POST'){
-    const newSheet = await doc.addSheet({
+  /*if(req.method === 'POST'){
+    await doc.addSheet({
       title:req.body.name,
       headerValues:[
         'petiano','pergunta1','pergunta2','pergunta3',
@@ -22,8 +22,17 @@ export default async function(req, res) {
         'pergunta10','pergunta11','pergunta12','pergunta13'
       ]
     });//! cria a sheet
+    await doc.addSheet({
+      title:('Resumo'+req.body.name),
+      headerValues:[
+        'petiano','voto1','voto2','voto3',
+        'voto4','voto5','voto6',
+        'voto7','voto8','voto9',
+        'voto10','voto11','voto12','voto13'
+      ]
+    });//! cria a sheet
     return res.status(200).send("sucesso");
-  }
+  }*/
 
   if(req.method === 'DELETE'){
     const newSheet = doc.sheetsByTitle[req.body.name];//! busca a sheet
@@ -34,13 +43,38 @@ export default async function(req, res) {
 
   if(req.method === 'PUT'){
     const newSheet = doc.sheetsByTitle[req.body.name];//! busca a sheet
-    await newSheet.addRow({petiano:"petiano",pergunta1:"undefined",pergunta2:"undedined",pergunta3:"undefined"
+    await newSheet.addRow({petiano:"andre",pergunta1:"undefined",pergunta2:"undedined",pergunta3:"undefined"
     ,pergunta4:"undefined",pergunta5:"undedined",pergunta6:"undefined",
     pergunta7:"undefined",pergunta8:"undedined",pergunta9:"undefined",
     pergunta10:"undefined",pergunta11:"undedined",pergunta12:"undefined",
     pergunta13:"undefined"
   });
     return res.status(200).send("sucesso");
+  }
+
+
+  if(req.method === 'POST'){
+    const sheet = doc.sheetsByTitle[req.body.name];//! busca a sheet
+    
+    const rows = await sheet.getRows();
+
+
+    const names = rows.map(({petiano,pergunta1,pergunta2,pergunta3,pergunta4,pergunta5,pergunta6,pergunta7,pergunta8,pergunta9,pergunta10,pergunta11,pergunta12,pergunta13}) => {
+    
+       if(petiano === 'andre'){
+        return {
+          petiano,pergunta1,pergunta2,
+          pergunta3,pergunta4,pergunta5,
+          pergunta6,pergunta7,pergunta8,
+          pergunta9,pergunta10,pergunta11,
+          pergunta12,pergunta13
+        } 
+       }
+        return;
+    })
+    //console.log(rows);
+    
+    return res.status(200).send(names);
   }
 
 

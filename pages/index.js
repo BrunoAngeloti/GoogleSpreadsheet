@@ -6,7 +6,7 @@ export default function Home() {
   const [name, setName] = useState('');
 
   async function criaAba(){
-    await fetch('/api/add', {
+    await fetch('/api/data', {
         method: 'POST',
         headers: {
           'Accept': 'application/json, text/plain, */*',
@@ -27,7 +27,7 @@ export default function Home() {
   }
 
   async function deleteAba(){
-    await fetch('/api/add', {
+    await fetch('/api/data', {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -48,7 +48,7 @@ export default function Home() {
   }
 
   async function updateAba(){
-    await fetch('/api/add', {
+    await fetch('/api/data', {
       method: 'PUT',
       headers: {
         'Accept': 'application/json, text/plain, */*',
@@ -68,6 +68,34 @@ export default function Home() {
     }) 
   }
 
+  async function getAvaliacao(){
+    await fetch('/api/data', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name
+      }),
+    }).then(async(res) => {
+      if (res.status === 200) {
+          console.log("busca realizada")
+          const response = await res.json();
+
+            const data = response?.filter((item) => {
+                return item !== null;
+            })
+          console.log(data)
+      }
+      else {
+         // erro();
+         console.log("error")
+      }
+    }) 
+  }
+  
+  
 
   return (
     <div className={styles.container}>
@@ -80,6 +108,7 @@ export default function Home() {
       <button onClick={criaAba}>CRIAR ABA</button>
       <button onClick={deleteAba}>DELETAR ABA</button>
       <button onClick={updateAba}>ATUALIZAR ABA</button>
+      <button onClick={getAvaliacao}>GET AVALIACAO</button>
     </div>
   )
 }

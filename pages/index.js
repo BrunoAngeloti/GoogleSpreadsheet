@@ -94,6 +94,31 @@ export default function Home() {
       }
     }) 
   }
+
+  async function criaPetiano(){
+    await fetch('/api/petiano', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        name:'Bruno',
+        id:'0',
+        login:'bruno.pires',
+        senha:'Eog9c6J',
+        email:'bruno@gmail.com'
+      }),
+    }).then((res) => {
+      if (res.status === 200) {
+          console.log("Petiano Criado");
+      }
+      else {
+         // erro();
+         console.log("error")
+      }
+    }) 
+  }
   
   
 
@@ -109,6 +134,7 @@ export default function Home() {
       <button onClick={deleteAba}>DELETAR ABA</button>
       <button onClick={updateAba}>ATUALIZAR ABA</button>
       <button onClick={getAvaliacao}>GET AVALIACAO</button>
+      <button onClick={criaPetiano}>CRIA PETIANO</button>
     </div>
   )
 }
